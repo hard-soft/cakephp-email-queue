@@ -1,0 +1,31 @@
+{
+  "name": "email/cakephp-email-queue",
+  "description": "Queue, preview and and send emails stored in the database",
+  "type": "cakephp-plugin",
+  "keywords": ["cakephp", "email", "queue", "cron", "preview"],
+  "authors": [
+    {
+      "name": "Daniel Spöck",
+      "role": "Author"
+    }
+  ],
+  "require": {
+    "cakephp/cakephp": "~3.6"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^5.7|^6.0",
+    "cakephp/cakephp-codesniffer": "^3.0",
+    "php-coveralls/php-coveralls": "^2.1"
+  },
+  "autoload": {
+      "psr-4": {
+          "EmailQueue\\": "src"
+      }
+  },
+  "autoload-dev": {
+      "psr-4": {
+          "EmailQueue\\Test\\": "tests",
+          "Cake\\Test\\": "./vendor/cakephp/cakephp/tests"
+      }
+  }
+}
