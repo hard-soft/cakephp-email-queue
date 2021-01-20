@@ -7,9 +7,14 @@ cakephp shell command.
 It also contains a handy shell for previewing queued emails, a very handy tool for modifying
 email templates and watching the result.
 
+### Enable plugin
+
+Based on https://github.com/lorenzo/cakephp-email-queue/tree/3.3.1
+
 ## Requirements ##
 
 * CakePHP 3.7
+* (CakePHP 3.9 compatible)
 
 ## Installation ##
 
@@ -71,6 +76,9 @@ and queue a new one by storing the correct data:
  * `config`: the name of the email config to be used for sending
  * `from_name`: String with from name. Must be supplied together with `from_email`.
  * `from_email`: String with from email. Must be supplied together with `from_name`.
+ * `cc`: String or array with email addresses
+ * `bcc`: String or array with email addresses
+ * `reply_to`: String with replyTo email address
 
 ### Previewing emails
 
@@ -88,16 +96,3 @@ read available options
 
 You can configure this command to be run under a cron or any other tool
 you wish to use.
-
-# Contributing
-
-## Run the tests
-
-```
-./vendor/bin/phpunit tests/
-```
-
-## Check style
-```
-./vendor/bin/phpcs ./src ./tests/ --standard=vendor/cakephp/cakephp-codesniffer/CakePHP
-```
