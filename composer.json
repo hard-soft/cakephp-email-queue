@@ -19,7 +19,7 @@
   },
   "autoload": {
       "psr-4": {
-          "hoferdigital\\EmailQueue\\": "src/"
+          "EmailQueue\\": "src/"
       }
   },
   "autoload-dev": {
