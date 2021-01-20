@@ -3,7 +3,7 @@ namespace EmailQueue\Shell;
 
 use Cake\Console\Shell;
 use Cake\Core\Configure;
-use Cake\Mailer\Email;
+use EmailQueue\Mailer\Email;
 use Cake\Network\Exception\SocketException;
 use Cake\ORM\TableRegistry;
 use EmailQueue\Model\Table\EmailQueueTable;
