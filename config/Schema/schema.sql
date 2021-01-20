@@ -1,7 +1,10 @@
 DROP TABLE IF EXISTS `email_queue`;
 CREATE TABLE IF NOT EXISTS `email_queue` (
-  `id` char(36) CHARACTER SET ascii NOT NULL,
-  `email` varchar(129) NOT NULL,
+  `id` char(36) NOT NULL,
+  `email_to` text NOT NULL,
+  `email_cc` text DEFAULT NULL,
+  `email_bcc` text DEFAULT NULL,
+  `email_reply_to` varchar(255) DEFAULT NULL,
   `from_name` varchar(255) DEFAULT NULL,
   `from_email` varchar(255) DEFAULT NULL,
   `subject` varchar(255) NOT NULL,
@@ -15,9 +18,10 @@ CREATE TABLE IF NOT EXISTS `email_queue` (
   `sent` tinyint(1) NOT NULL DEFAULT '0',
   `locked` tinyint(1) NOT NULL DEFAULT '0',
   `send_tries` int(2) NOT NULL DEFAULT '0',
+  `error` text,
   `send_at` datetime DEFAULT NULL,
+  `attachments` text,
   `created` datetime NOT NULL,
   `modified` datetime DEFAULT NULL,
-  `attachments` text,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 DEFAULT COLLATE utf8_unicode_ci;
