@@ -142,6 +142,7 @@ class SenderShell extends Shell
                     ->setTemplate($template);
 
                 $email->send();
+                $this->_unlinkAttachments($email->getAttachments());
             } catch (SocketException $exception) {
                 $this->err($exception->getMessage());
                 $errorMessage = $exception->getMessage();
@@ -159,6 +160,16 @@ class SenderShell extends Shell
         if ($count > 0) {
             $locks = collection($emails)->extract('id')->toList();
             $emailQueue->releaseLocks($locks);
+        }
+    }
+
+    private function _unlinkAttachments ($attachments = []) {
+        if (!empty($attachments)) {
+            foreach ($attachments as $a) {
+                if (!empty($a['file']) && file_exists($a['file'])) {
+                    unlink($a['file']);
+                }
+            }
         }
     }
 
