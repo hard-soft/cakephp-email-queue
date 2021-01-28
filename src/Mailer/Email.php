@@ -30,4 +30,24 @@ class Email extends BaseEmail {
 
         return $return;
     }
+
+    public function setAttachments($attachments) {
+        foreach ((array)$attachments as $name => $fileInfo) {
+            if (isset($fileInfo['s3url'])) {
+                if (filter_var($fileInfo['s3url'], FILTER_VALIDATE_URL) !== false) {
+                    $localpath = TMP . pathinfo(parse_url($fileInfo['s3url'], PHP_URL_PATH), PATHINFO_BASENAME);
+                    file_put_contents($localpath, fopen($fileInfo['s3url'], 'r'));
+                    if (file_exists($localpath)) {
+                        $attachments[$name]['file'] = $localpath;
+                    } else {
+                        unset($attachments[$name]);
+                    }
+                } else {
+                    unset($attachments[$name]);
+                }
+            }
+        }
+        
+        return parent::setAttachments($attachments);
+    }
 }
