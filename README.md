@@ -60,12 +60,21 @@ and queue a new one by storing the correct data:
     use EmailQueue\EmailQueue;
     EmailQueue::enqueue($to, $data, $options);
 
-`enqueue` method receives 3 arguments:
+`EmailQueue::enqueue` method receives 3 arguments:
 
-- First argument is a string or array of email addresses that will be treated as recipients.
+- First argument is a string or array of email addresses that will be treated as recipients or `to` param if component-method is used.
 - Second arguments is an array of view variables to be passed to the
-  email template
-- Third arguments is an array of options, possible options are
+  email template, or `template_vars` array param if component-method is used.
+  
+`EmailComponent::enqueue` method can be used like `EmailQueue::enqueue` or by passing a single array with all key/values
+
+    use EmailQueue\Controller\Component\EmailComponent;
+    EmailComponent::enqueue($mail, [$data, $options]);
+
+- Third arguments is an array of `options`, possible options are
+
+ * `to`: String or Array with recipient(s) (component-method-only otherwise first param)
+ * `template_vars`: Array with view variables (component-method-only otherwise second param)
  * `subject`: Email's subject
  * `send_at`: date time sting representing the time this email should be sent at (in UTC)
  * `template`:  the name of the element to use as template for the email message. (maximum supported length is 100 chars)
@@ -79,6 +88,81 @@ and queue a new one by storing the correct data:
  * `cc`: String or array with email addresses
  * `bcc`: String or array with email addresses
  * `reply_to`: String with replyTo email address
+ * `attachments` 
+ ```json
+[
+    "[FILENAME]" => [
+        "s3url" => "[PRESIGNED-S3-URL]",
+    ],
+    "[ANOTHER_FILENAME]" => [
+        "file" => "[FILE-ON-FILESYSTEM]",
+    ]
+]
+```
+
+## Component-Examples
+
+1. passed by three params
+
+ ```json
+$to = [
+    "test@test.at",
+    "test2@test.com"
+];
+$data = [
+    "date" => "2021-01-01",
+    "time" => "12:30:00",
+    "message" => "This is a testmessage"
+];
+$options = [
+    "template" => "confirmation",
+    "format" => "html",
+    "attachments" => [
+        "myfile.txt" => [
+            "s3url" => "https://dummyurl.test/myfile.txt"
+        ],
+        "test.png" => [
+            "file" => "/tmp/test.png"
+        ]
+    ]
+];
+
+```
+
+    use EmailQueue\Controller\Component\EmailComponent;
+    EmailComponent::enqueue($to, $data, $options);
+
+2. passed by array
+
+ ```json
+$mail = [
+    "to" => [
+        "test@test.at",
+        "test2@test.com"
+    ],
+    "template_vars" => [
+        "date" => "2021-01-01",
+        "time" => "12:30:00",
+        "message" => "This is a testmessage"
+    ],
+    "template" => "confirmation",
+    "format" => "html",
+    "attachments" => [
+        "myfile.txt" => [
+            "s3url" => "https://dummyurl.test/myfile.txt"
+        ],
+        "test.png" => [
+            "file" => "/tmp/test.png"
+        ]
+    ]
+];
+
+```
+
+
+    use EmailQueue\Controller\Component\EmailComponent;
+    EmailComponent::enqueue($mail);
+
 
 ### Previewing emails
 
