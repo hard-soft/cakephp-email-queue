@@ -7,7 +7,7 @@ cakephp shell command.
 It also contains a handy shell for previewing queued emails, a very handy tool for modifying
 email templates and watching the result.
 
-### Enable plugin
+### Credits
 
 Based on https://github.com/lorenzo/cakephp-email-queue/tree/3.3.1
 
