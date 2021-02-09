@@ -22,7 +22,7 @@ class Email extends BaseEmail {
             } else {
                 $encoded = $this->_encode($alias);
                 if ($encoded === $alias && preg_match('/[^a-z0-9 ]/i', $encoded)) {
-                    $encoded = '"' . str_replace('"', '\"', $encoded) . '"';
+                    $encoded = str_replace('"', '\"', $encoded);
                 }
                 $return[] = sprintf('"%s" <%s>', $encoded, $email);
             }
