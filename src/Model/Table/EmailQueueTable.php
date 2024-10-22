@@ -21,7 +21,7 @@ class EmailQueueTable extends Table
     /**
      * {@inheritdoc}
      */
-    public function initialize(array $config = [])
+    public function initialize(array $config = []) : void
     {
         Type::map('email_queue.json', JsonType::class);
         Type::map('email_queue.serialize', SerializeType::class);
