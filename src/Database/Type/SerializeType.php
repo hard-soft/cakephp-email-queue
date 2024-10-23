@@ -2,9 +2,10 @@
 namespace EmailQueue\Database\Type;
 
 use Cake\Database\Driver;
-use Cake\Database\Type\StringType;
+use Cake\Database\Type\BaseType;
+use Cake\Database\DriverInterface;
 
-class SerializeType extends StringType {
+class SerializeType extends BaseType {
 	/**
 	 * Creates a PHP value from a stored representation
 	 *
@@ -12,9 +13,9 @@ class SerializeType extends StringType {
 	 * @param Driver $driver database driver
 	 * @return mixed|null|string|void
 	 */
-	public function toPHP($value, Driver $driver) {
+	public function toPHP($value, DriverInterface $driver) {
 		if ($value === null) {
-			return;
+			return null;
 		}
 
 		return unserialize($value);
@@ -27,16 +28,10 @@ class SerializeType extends StringType {
 	 * @param Driver $driver database driver
 	 * @return null|string
 	 */
-	public function toDatabase($value, Driver $driver) {
+	public function toDatabase($value, DriverInterface $driver) {
 		return serialize($value);
 	}
 
-	/**
-	 * Marshal - Return the value as is
-	 *
-	 * @param mixed $value php object
-	 * @return mixed|null|string
-	 */
 	public function marshal($value) {
 		return $value;
 	}
@@ -46,7 +41,7 @@ class SerializeType extends StringType {
 	 *
 	 * @return bool always true
 	 */
-	public function requiresToPhpCast() {
+	public function requiresToPhpCast(): bool {
 		return true;
 	}
 }
