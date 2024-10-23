@@ -2,9 +2,10 @@
 namespace EmailQueue\Database\Type;
 
 use Cake\Database\Driver;
-use Cake\Database\Type\StringType;
+use Cake\Database\Type\BaseType;
+use Cake\Database\DriverInterface;
 
-class JsonType extends StringType {
+class JsonType extends BaseType {
 	/**
 	 * Decodes a JSON string
 	 *
@@ -12,7 +13,7 @@ class JsonType extends StringType {
 	 * @param Driver $driver database driver
 	 * @return mixed|null|string|void
 	 */
-	public function toPHP($value, Driver $driver) {
+	public function toPHP($value, DriverInterface $driver) {
 		if ($value === null) {
 			return;
 		}
@@ -20,12 +21,6 @@ class JsonType extends StringType {
 		return json_decode($value, true);
 	}
 
-	/**
-	 * Marshal - Decodes a JSON string
-	 *
-	 * @param mixed $value json string to decode
-	 * @return mixed|null|string
-	 */
 	public function marshal($value) {
 		if (is_array($value) || $value === null) {
 			return $value;
@@ -41,7 +36,7 @@ class JsonType extends StringType {
 	 * @param Driver $driver database driver
 	 * @return null|string
 	 */
-	public function toDatabase($value, Driver $driver) {
+	public function toDatabase($value, DriverInterface $driver) {
 		return json_encode($value);
 	}
 
@@ -50,7 +45,7 @@ class JsonType extends StringType {
 	 *
 	 * @return bool always true
 	 */
-	public function requiresToPhpCast() {
+	public function requiresToPhpCast(): bool {
 		return true;
 	}
 }
