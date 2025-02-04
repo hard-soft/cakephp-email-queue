@@ -34,6 +34,16 @@ class EmailQueueTable extends Table {
 				],
 			]
 		);
+
+		$schema = $this->getSchema();
+		$type = Configure::read('EmailQueue.serialization_type') ?: 'email_queue.serialize';
+		$schema->setColumnType('template_vars', $type);
+		$schema->setColumnType('headers', $type);
+		$schema->setColumnType('attachments', $type);
+		$schema->setColumnType('email_to', $type);
+		$schema->setColumnType('email_cc', $type);
+		$schema->setColumnType('email_bcc', $type);
+		$this->setSchema($schema);
 	}
 
 	/**
@@ -184,17 +194,5 @@ class EmailQueueTable extends Table {
 				'id' => $id,
 			]
 		);
-	}
-
-	protected function _initializeSchema(TableSchemaInterface $schema): TableSchemaInterface {
-		$type = Configure::read('EmailQueue.serialization_type') ?: 'email_queue.serialize';
-		$schema->setColumnType('template_vars', $type);
-		$schema->setColumnType('headers', $type);
-		$schema->setColumnType('attachments', $type);
-		$schema->setColumnType('email_to', $type);
-		$schema->setColumnType('email_cc', $type);
-		$schema->setColumnType('email_bcc', $type);
-
-		return $schema;
 	}
 }
